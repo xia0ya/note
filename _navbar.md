@@ -1,4 +1,4 @@
-- [<span class="iconfont icon-book3"></span> 首页](https://bytesfly.vercel.app/)
+- [<span class="iconfont icon-book3"></span> 首页](https://xia0ya.github.io/note/)
 - [<span class="iconfont icon-icon_fabu"></span> 导航](README.md)
   - [多元统计](README?id=MSA)
   
