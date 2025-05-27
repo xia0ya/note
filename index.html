@@ -9,9 +9,17 @@
   <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 
+  <!-- PDF.js -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  </script>
+
+  <!-- KaTeX CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  
+  <!-- 其他 CSS -->
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/themes/vue.css">
-  <!-- 支持 LaTex 语言 -->
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css" />
   <link rel="stylesheet" href="https://wugenqiang.js.org/src/css/iconfont.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wugenqiang/NoteBook@master/plugin/custom.css">
   <!-- alert -->
@@ -175,7 +183,7 @@
     .markdown-section pre>code {
       color: #c0c3c1 !important;
       font-family: 'Inconsolata', consolas,"PingFang SC", "Microsoft YaHei", monospace !important;
-      background-color: #212121 !important;    //#accfff  #282c34
+      background-color: #212121 !important;    /*//#accfff  #282c34*/
       font-size: 15px !important;
       white-space: pre !important;
       line-height: 1.5 !important;
@@ -336,7 +344,6 @@
   </style>
 
 </head>
-<body>
 <div id="app">代码改变世界</div>
 
 <!-- <div class="aside_container">
@@ -350,94 +357,70 @@
 
   <script>
     window.$docsify = {
-      name: "<p>xia0ya</p>",
+      name: 'xia0ya',
+      repo: 'https://github.com/xia0ya/note',
+      loadSidebar: true,
+      sidebar: '/',
+      subMaxLevel: 3,
+      auto2top: true,
+      search: {
+        maxAge: 86400000,
+        paths: 'auto',
+        placeholder: '搜索',
+        noData: '找不到结果',
+        depth: 6
+      },
+      // KaTeX 配置
+      katex: {
+        throwOnError: false,
+        errorColor: '#cc0000',
+        displayMode: true,
+        output: 'html',
+        strict: false,
+        trust: true,
+        macros: {
+          "\\eqref": "\\href{#1}{}",
+          "\\label": "\\href{#1}{}"
+        }
+      },
+      // PDF 查看器配置
+      pdf: {
+        width: '100%',
+        height: '600px'
+      },
       nameLink: 'https://www.cnblogs.com/xia0ya/',
-      //repo: 'wugenqiang/NoteBook',
       themeColor: '#007be8', // 主题颜色
-      //loadSidebar: true,//_sidebar.md如果为真，则从_sidebar.md文件加载边栏，否则从指定的路径加载
-      auto2top: true,  //当路线改变时,滚动到屏幕的顶部
       loadNavbar: true,//_navbar.md如果为真，则从_navbar.md文件加载navbar ，否则从指定的路径加载
+      navbar: '/',
       mergeNavbar: true,//Navbar将在小屏幕上与侧边栏合并
       executeScript: true,//执行页面上的脚本。只解析第一个脚本标记（演示）。如果存在Vue，则默认开
       maxLevel: 6,//最大的内容表级别
-      //subMaxLevel: 6,//在自定义边栏中添加目录（TOC)
       externalLinkTarget: '_blank', //外链打开方式：_blank表示在新标签页中打开
       coverpage: true,
-      onlyCover: true,
+      onlyCover: false,
       topMargin: 60,//调整top
-      //executeScript: true,//执行页面上的脚本，仅解析第一个脚本标签
-      search: {
-        paths: 'auto',
-        placeholder: '🔍 搜索',
-        noData: '😒 找不到结果',
-        // Headline depth, 1 - 6
-        depth: 6,
-        maxAge: 86400000, // 过期时间，单位毫秒，默认一天
-      },//添加搜索框
-
       footer: {
         copy: '历历山河间，岁月如初见。 —— <a href="https://www.cnblogs.com/xia0ya/" target="_blank">xia0ya</a><br/><br/>',
         pre: '<hr/>',
         style: 'text-align: left;',
       },//添加页脚
 
-      markdown: {
-        renderer: {
-          code: function(code, lang, base=null) {
-
-            if (lang === "dot") {
-              return (
-                      '<div class="viz">'+ Viz(code, "SVG")+'</div>'
-              );
-            }
-
-            var pdf_renderer = function(code, lang, verify) {
-              function unique_id_generator(){
-                function rand_gen(){
-                  return Math.floor((Math.random()+1) * 65536).toString(16).substring(1);
-                }
-                return rand_gen() + rand_gen() + '-' + rand_gen() + '-' + rand_gen() + '-' + rand_gen() + '-' + rand_gen() + rand_gen() + rand_gen();
-              }
-              if(lang && !lang.localeCompare('pdf', 'en', {sensitivity: 'base'})){
-                if(verify){
-                  return true;
-                }else{
-                  var divId = "markdown_code_pdf_container_" + unique_id_generator().toString();
-                  var container_list = new Array();
-                  if(localStorage.getItem('pdf_container_list')){
-                    container_list = JSON.parse(localStorage.getItem('pdf_container_list'));
-                  }
-                  container_list.push({"pdf_location": code, "div_id": divId});
-                  localStorage.setItem('pdf_container_list', JSON.stringify(container_list));
-                  return (
-                          '<div style="margin-top:'+ PDF_MARGIN_TOP +'; margin-bottom:'+ PDF_MARGIN_BOTTOM +';" id="'+ divId +'">'
-                          + '<a href="'+ code + '"> Link </a> to ' + code +
-                          '</div>'
-                  );
-                }
-              }
-              return false;
-            }
-            if(pdf_renderer(code, lang, true)){
-              return pdf_renderer(code, lang, false);
-            }
-            //return this.origin.code.apply(this, arguments);
-            return (base ? base : this.origin.code.apply(this, arguments));
-          }
-        }
-      },
-
     }
   </script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/wugenqiang/NoteBook@master/plugin/search.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/wugenqiang/NoteBook@master/plugin/zoom-image.min.js"></script>
+  <!-- 支持 LaTex 语言 -->
+  <!-- Docsify script Here -->
+
+  <!-- LaTeX display engine script Here -->
+
+  <script src="//cdn.jsdelivr.net/npm/docsify-latex@0"></script>
+
+  <script src="//cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css" />
+  <script src="//cdn.jsdelivr.net/npm/marked@4"></script>
 
   <!-- 支持 DOT 语言 -->
   <script src="https://cdn.jsdelivr.net/gh/wugenqiang/NoteBook@master/plugin/viz.js"></script>
-  <!-- 支持 LaTex 语言 -->
-  <script src="//cdn.jsdelivr.net/npm/docsify-katex@latest/dist/docsify-katex.js"></script>
-
   <!-- 添加 PDF 页面展示功能 -->
   <!-- PDFObject.js is a required dependency of this plugin -->
   <!--<script src="//cdnjs.cloudflare.com/ajax/libs/pdfobject/2.1.1/pdfobject.min.js"></script>-->
@@ -490,12 +473,34 @@
   <!-- 添加页脚 -->
   <script src="https://cdn.jsdelivr.net/gh/wugenqiang/NoteBook@master/plugin/docsify-footer-enh.min.js"></script>
 
-  <!-- 实现离线化 -->
+  <!-- KaTeX auto-render extension -->
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
   <script>
     if (typeof navigator.serviceWorker !== 'undefined') {
       navigator.serviceWorker.register('pwa.js')
     }
   </script>
 
+  <script>
+    // Run KaTeX auto-render after Docsify finishes loading a page
+    // Use Docsify's doneEach hook
+    window.$docsify.plugins = [
+      function(hook, vm) {
+        hook.doneEach(function() {
+          renderMathInElement(document.querySelector('.markdown-section'), {
+            // KaTeX options
+            delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: false},
+            ],
+            throwOnError: false
+          });
+        });
+      }
+    ]
+  </script>
+
 </body>
 </html>
+
