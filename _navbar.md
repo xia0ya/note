@@ -1,6 +1,8 @@
 - [<span class="iconfont icon-book3"></span> 首页](https://xia0ya.github.io/note/)
 - [<span class="iconfont icon-icon_fabu"></span> 导航](README.md)
   - [多元统计](README?id=MSA)
+  - [爬虫](README?id=爬虫)
+  - [计量经济学](README?id=计量经济学)
   
 <!-- - [<span class="iconfont icon-lianjie"></span> 友链](about/Friends.md)   -->
 - [<span class="iconfont icon-wodeguanzhu"></span> 关于本站](about/)

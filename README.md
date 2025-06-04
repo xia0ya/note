@@ -8,3 +8,8 @@
 
 ## python爬虫
 - [爬虫](爬虫/README.md)
+
+## 计量经济学
+- [计量经济学](计量经济学/README.md)
+
+运行项目 npx serve
