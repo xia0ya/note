@@ -44,6 +44,9 @@ tabstat a,statistics(sum)
 di 16484.84/(807-6-1)
 di 20.60605^0.5
 
+
+
+
 poisson cigs lcigpric lincome white educ age agesq,robust
 
 
