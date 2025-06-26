@@ -501,6 +501,30 @@
     ]
   </script>
 
+  <script>
+    // 文章访问密码
+  (function() {
+    function checkHash() {
+      if (location.hash.indexOf('ActualCmbat1') !== -1) {
+        var pass = localStorage.getItem('acmb1_pass');
+        if (pass !== '060314') {
+          pass = prompt('请输入访问密码：');
+          if (pass !== '060314') {
+            document.body.innerHTML = '<h2 style="text-align:center;margin-top:100px;">无权限访问</h2>';
+            window.stop && window.stop();
+            return;
+          } else {
+            localStorage.setItem('acmb1_pass', pass);
+          }
+        }
+      }
+    }
+    window.addEventListener('hashchange', checkHash);
+    document.addEventListener('DOMContentLoaded', checkHash);
+    checkHash();
+  })();
+  </script>
+
 </body>
 </html>
 

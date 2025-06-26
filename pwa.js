@@ -11,7 +11,9 @@ const HOSTNAME_WHITELIST = [
     self.location.hostname,
     'fonts.gstatic.com',
     'fonts.googleapis.com',
-    'cdn.jsdelivr.net'
+    'cdn.jsdelivr.net',
+    'localhost',
+    '127.0.0.1'
 ]
 
 // The Util Function to hack URLs of intercepted requests
@@ -65,7 +67,7 @@ self.addEventListener('fetch', event => {
 
         // Call respondWith() with whatever we get first.
         // If the fetch fails (e.g disconnected), wait for the cache.
-        // If there’s nothing in cache, wait for the fetch.
+        // If there's nothing in cache, wait for the fetch.
         // If neither yields a response, return offline pages.
         event.respondWith(
             Promise.race([fetched.catch(_ => cached), cached])
