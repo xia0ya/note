@@ -12,6 +12,7 @@
 ## 计量经济学
 - [计量经济学](计量经济学/README.md)
 
-
+## python实战分析
+- [python实战分析](python/README.md)
 
 运行项目 npx serve
