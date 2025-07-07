@@ -31,6 +31,8 @@
 
   <style>
 
+    
+
     /*加重描述strong*/
     .markdown-section strong {
       color: rgb(239, 112, 96);
@@ -358,7 +360,7 @@
   <script>
     window.$docsify = {
       name: 'xia0ya',
-      repo: 'https://github.com/xia0ya/note',
+      // repo: 'https://github.com/xia0ya/note',
       loadSidebar: true,
       sidebar: '/',
       subMaxLevel: 3,
@@ -388,7 +390,7 @@
         width: '100%',
         height: '600px'
       },
-      nameLink: 'https://www.cnblogs.com/xia0ya/',
+      // nameLink: 'https://www.cnblogs.com/xia0ya/',
       themeColor: '#007be8', // 主题颜色
       loadNavbar: true,//_navbar.md如果为真，则从_navbar.md文件加载navbar ，否则从指定的路径加载
       navbar: '/',
@@ -483,25 +485,6 @@
   </script>
 
   <script>
-    // Run KaTeX auto-render after Docsify finishes loading a page
-    // Use Docsify's doneEach hook
-    window.$docsify.plugins = [
-      function(hook, vm) {
-        hook.doneEach(function() {
-          renderMathInElement(document.querySelector('.markdown-section'), {
-            // KaTeX options
-            delimiters: [
-              {left: '$$', right: '$$', display: true},
-              {left: '$', right: '$', display: false},
-            ],
-            throwOnError: false
-          });
-        });
-      }
-    ]
-  </script>
-
-  <script>
     // 文章访问密码
   (function() {
     function checkHash() {
@@ -524,7 +507,26 @@
     checkHash();
   })();
   </script>
-
+  
+  
+  <script>
+    // Run KaTeX auto-render after Docsify finishes loading a page
+    // Use Docsify's doneEach hook
+    window.$docsify.plugins = (window.$docsify.plugins || []).concat([
+      function(hook, vm) {
+        hook.doneEach(function() {
+          renderMathInElement(document.querySelector('.markdown-section'), {
+            // KaTeX options
+            delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: false},
+            ],
+            throwOnError: false
+          });
+        });
+      }
+    ]);
+  </script>
 </body>
 </html>
 
