@@ -86,7 +86,7 @@ http://opac.zufe.edu.cn:8080/opac/openlink.php?s2_type=title&s2_text=python&sear
 ## 实战
 - [实战一](/爬虫/ActualCmbat1.md)
 
-二级爬取，爬取某网址图片
+爬虫返回白页解决
 
 - [实战二](/爬虫/ActualCmbat2.md)
 - [实战三](/爬虫/ActualCmbat3.md)
